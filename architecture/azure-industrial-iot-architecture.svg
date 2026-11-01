@@ -1,0 +1,98 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1800" height="1120" viewBox="0 0 1800 1120" role="img" aria-labelledby="title desc">
+<title id="title">Azure Industrial IoT Reliability Platform - reference architecture</title>
+<desc id="desc">Azure architecture showing synthetic equipment telemetry through Event Hubs, Functions and Stream Analytics into Cosmos DB and Data Explorer, served by a FastAPI application and dashboard, secured and monitored with Azure services.</desc>
+<defs>
+ <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#071629"/><stop offset="1" stop-color="#102b49"/></linearGradient>
+ <linearGradient id="azure" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#16a6e8"/><stop offset="1" stop-color="#0063b1"/></linearGradient>
+ <linearGradient id="purple" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#9b7bff"/><stop offset="1" stop-color="#5941b8"/></linearGradient>
+ <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%"><feDropShadow dx="0" dy="8" stdDeviation="10" flood-color="#000" flood-opacity=".25"/></filter>
+ <marker id="arrow" markerWidth="12" markerHeight="12" refX="9" refY="6" orient="auto"><path d="M1 1 L10 6 L1 11" fill="none" stroke="#6dd6ff" stroke-width="2"/></marker>
+ <style>
+ .h{font:700 34px 'Segoe UI',Arial,sans-serif;fill:#fff}.sub{font:400 17px 'Segoe UI',Arial,sans-serif;fill:#b7cbe0}.section{font:700 17px 'Segoe UI',Arial,sans-serif;fill:#8fdcff;letter-spacing:1.8px}.name{font:700 18px 'Segoe UI',Arial,sans-serif;fill:#f4f8ff}.small{font:400 14px 'Segoe UI',Arial,sans-serif;fill:#b9cde0}.tiny{font:400 12px 'Segoe UI',Arial,sans-serif;fill:#91abc5}.line{fill:none;stroke:#6dd6ff;stroke-width:3;marker-end:url(#arrow);opacity:.9}.dash{fill:none;stroke:#9c8cff;stroke-width:2.5;stroke-dasharray:9 8;marker-end:url(#arrow)}.tile{fill:#123553;stroke:#2d638b;stroke-width:1.5}.tile2{fill:#1a3157;stroke:#6959ad;stroke-width:1.5}.ico{fill:none;stroke:#fff;stroke-width:3;stroke-linecap:round;stroke-linejoin:round}.badge{font:600 12px 'Segoe UI',Arial,sans-serif;fill:#d5eaff}
+ </style>
+</defs>
+<rect width="1800" height="1120" fill="url(#bg)"/>
+<circle cx="1640" cy="80" r="240" fill="#0b5b91" opacity=".12"/><circle cx="130" cy="1030" r="270" fill="#7656d8" opacity=".10"/>
+<text x="70" y="68" class="h">AZURE INDUSTRIAL IoT RELIABILITY PLATFORM</text>
+<text x="70" y="101" class="sub">Reference architecture • Real-time telemetry • Equipment health • Predictive maintenance foundation</text>
+<rect x="70" y="132" width="1660" height="1" fill="#2b5577"/>
+<!-- producer zone -->
+<text x="82" y="180" class="section">01  /  EDGE &amp; TELEMETRY SOURCES</text>
+<g filter="url(#shadow)">
+ <rect x="80" y="205" width="310" height="172" rx="18" class="tile"/>
+ <g transform="translate(110 237)" class="ico"><circle cx="36" cy="36" r="24"/><path d="M36 12v48M12 36h48M19 19l34 34M53 19L19 53"/><path d="M70 8q20 28 0 56M2 8q-20 28 0 56"/></g>
+ <text x="205" y="255" class="name">Industrial assets</text><text x="205" y="282" class="small">Motors • Pumps • Bearings</text><text x="205" y="307" class="small">Vibration • Temperature • RPM</text><text x="110" y="352" class="tiny">Synthetic telemetry simulator / edge gateway</text>
+ <rect x="440" y="205" width="300" height="172" rx="18" class="tile"/>
+ <g transform="translate(472 238)" class="ico"><rect x="4" y="8" width="60" height="52" rx="7"/><path d="M15 22h38M15 34h24M15 46h32M18 0v8M50 0v8M18 60v8M50 60v8"/></g>
+ <text x="560" y="255" class="name">Telemetry publisher</text><text x="560" y="282" class="small">Python / MQTT adapter</text><text x="560" y="307" class="small">JSON event envelope</text><text x="472" y="352" class="tiny">Schema validation • UTC timestamps • Event ID</text>
+</g>
+<path d="M390 291H435" class="line"/>
+<path d="M740 291H820" class="line"/>
+<!-- Azure boundary -->
+<rect x="790" y="158" width="900" height="655" rx="24" fill="#0b2741" stroke="#168bd0" stroke-width="2.5"/>
+<rect x="815" y="143" width="240" height="30" rx="15" fill="#0877bd"/>
+<text x="835" y="164" class="badge">MICROSOFT AZURE</text>
+<text x="830" y="207" class="section">02  /  INGESTION &amp; EVENT PROCESSING</text>
+<!-- event hubs -->
+<g filter="url(#shadow)">
+ <rect x="835" y="230" width="245" height="145" rx="16" class="tile"/>
+ <g transform="translate(865 258)" class="ico"><path d="M8 0h44l12 14v42H8z"/><path d="M20 15h32M20 27h32M20 39h20"/><circle cx="57" cy="56" r="7" fill="#18a8e8" stroke="none"/></g>
+ <text x="955" y="273" class="name">Event Hubs</text><text x="955" y="300" class="small">Event streaming ingress</text><text x="955" y="324" class="small">Partitions • Consumer groups</text><text x="865" y="355" class="tiny">Durable buffer / independent consumers</text>
+ <!-- functions -->
+ <rect x="1150" y="230" width="230" height="145" rx="16" class="tile"/>
+ <g transform="translate(1180 258)" class="ico"><path d="M28 0L5 34h23l-6 27 32-39H31z"/></g>
+ <text x="1265" y="273" class="name">Azure Functions</text><text x="1265" y="300" class="small">Validate • Enrich • Route</text><text x="1265" y="324" class="small">Idempotent event handling</text><text x="1180" y="355" class="tiny">Retry / quarantine pattern</text>
+ <!-- stream analytics -->
+ <rect x="1450" y="230" width="210" height="145" rx="16" class="tile"/>
+ <g transform="translate(1480 260)" class="ico"><path d="M5 52V5M5 52h62"/><path d="M12 43l13-15 12 8 17-24"/></g>
+ <text x="1560" y="273" class="name">Stream Analytics</text><text x="1560" y="300" class="small">Windowed queries</text><text x="1560" y="324" class="small">Aggregations / filters</text><text x="1480" y="355" class="tiny">Continuous stream processing</text>
+</g>
+<path d="M1080 302H1145" class="line"/><path d="M1080 345H1435V302H1445" class="line"/>
+<text x="830" y="430" class="section">03  /  DATA &amp; ANALYTICS</text>
+<g filter="url(#shadow)">
+ <rect x="900" y="455" width="290" height="150" rx="16" class="tile"/>
+ <g transform="translate(932 483)" class="ico"><ellipse cx="32" cy="10" rx="28" ry="9"/><path d="M4 10v44c0 12 56 12 56 0V10M4 31c0 12 56 12 56 0"/></g>
+ <text x="1015" y="497" class="name">Cosmos DB</text><text x="1015" y="525" class="small">Operational state</text><text x="1015" y="549" class="small">Asset snapshots • Alerts</text><text x="932" y="585" class="tiny">Fast API-oriented reads / writes</text>
+ <rect x="1290" y="455" width="310" height="150" rx="16" class="tile"/>
+ <g transform="translate(1322 485)" class="ico"><path d="M5 53V8M5 53h65"/><path d="M14 42l12-14 12 8 12-22 13 10"/></g>
+ <text x="1410" y="497" class="name">Azure Data Explorer</text><text x="1410" y="525" class="small">Historical time-series</text><text x="1410" y="549" class="small">Trends • Correlation • KQL</text><text x="1322" y="585" class="tiny">Reliability engineering analytics</text>
+</g>
+<path d="M1265 375V420H1045V450" class="line"/><path d="M1555 375V450" class="line"/>
+<!-- app zone -->
+<text x="82" y="465" class="section">04  /  APPLICATION EXPERIENCE</text>
+<g filter="url(#shadow)">
+ <rect x="80" y="495" width="310" height="145" rx="18" class="tile2"/>
+ <g transform="translate(112 524)" class="ico"><rect x="2" y="3" width="64" height="46" rx="5"/><path d="M2 15h64M15 57h38M34 49v8"/><path d="M13 36l10-9 9 5 13-12"/></g>
+ <text x="205" y="544" class="name">FastAPI service</text><text x="205" y="572" class="small">Equipment / telemetry APIs</text><text x="205" y="596" class="small">Health status • Alert history</text><text x="112" y="622" class="tiny">Application layer (containerized)</text>
+ <rect x="440" y="495" width="310" height="145" rx="18" class="tile2"/>
+ <g transform="translate(472 524)" class="ico"><rect x="2" y="3" width="64" height="46" rx="5"/><path d="M12 38V26h10v12M29 38V15h10v23M46 38V21h10v17"/></g>
+ <text x="565" y="544" class="name">Health dashboard</text><text x="565" y="572" class="small">Asset status • Trends</text><text x="565" y="596" class="small">Alerts • Maintenance view</text><text x="472" y="622" class="tiny">Operator / engineer experience</text>
+</g>
+<path d="M900 535H790V570H395" class="line"/><path d="M440 565H395" class="line"/>
+<path d="M1190 530H1680V680H1655" class="line"/>
+<!-- alerting -->
+<rect x="835" y="665" width="780" height="112" rx="16" class="tile2"/>
+<text x="870" y="700" class="section">05  /  ALERTING &amp; RESPONSE</text>
+<g transform="translate(870 716)" class="ico"><path d="M18 0c-9 0-15 7-15 17v13l-3 7h36l-3-7V17C33 7 27 0 18 0z"/><path d="M12 43c2 6 10 6 12 0"/></g>
+<text x="925" y="740" class="name">Alert evaluation</text><text x="925" y="762" class="small">Thresholds • Hysteresis • Deduplication</text>
+<path d="M1195 738H1280" class="line"/>
+<g transform="translate(1300 714)" class="ico"><rect x="0" y="3" width="54" height="34" rx="5"/><path d="M2 6l25 18L52 6"/></g>
+<text x="1375" y="740" class="name">Notification adapter</text><text x="1375" y="762" class="small">Email / webhook simulation</text>
+<!-- security and observability -->
+<rect x="70" y="715" width="690" height="195" rx="18" fill="#102c48" stroke="#39739a" stroke-width="1.5"/>
+<text x="100" y="753" class="section">CROSS-CUTTING PLATFORM CONTROLS</text>
+<g transform="translate(105 782)" class="ico"><path d="M25 0l22 8v18c0 17-12 27-22 33C15 53 3 43 3 26V8z"/><path d="M14 27l8 8 15-17"/></g>
+<text x="170" y="802" class="name">Identity &amp; security</text><text x="170" y="828" class="small">Microsoft Entra ID • Managed Identity • RBAC</text><text x="170" y="852" class="small">Private Endpoints • Key Vault • Policy</text>
+<g transform="translate(460 785)" class="ico"><path d="M4 50V5h54v45z"/><path d="M13 39l10-13 9 6 14-17"/><path d="M13 13h8"/></g>
+<text x="535" y="802" class="name">Observability</text><text x="535" y="828" class="small">Azure Monitor • App Insights</text><text x="535" y="852" class="small">Prometheus • Grafana • SLOs</text>
+<text x="100" y="885" class="tiny">CI/CD security gates: GitHub Actions • Terraform validation • Checkov • Trivy • OPA</text>
+<!-- infra -->
+<rect x="790" y="845" width="900" height="65" rx="14" fill="#132f50" stroke="#4e76a6" stroke-width="1.5"/>
+<text x="825" y="884" class="section">PLATFORM FOUNDATION</text>
+<text x="1115" y="884" class="name">Terraform IaC</text><text x="1285" y="884" class="small">Docker</text><text x="1390" y="884" class="small">AKS</text><text x="1480" y="884" class="small">GitHub Actions CI/CD</text>
+<!-- footer -->
+<rect x="70" y="950" width="1660" height="1" fill="#2b5577"/>
+<text x="80" y="990" class="small">FLOW: Asset telemetry → Event Hubs → Functions / Stream Analytics → Operational + analytical stores → API / dashboard → alert response</text>
+<text x="80" y="1023" class="tiny">Reference design only • Synthetic data • Not connected to OT control networks • Monitoring/decision support, not safety control</text>
+<text x="80" y="1060" class="tiny">Azure service names are Microsoft product names. Diagram uses custom illustrative service glyphs; refer to Microsoft Learn for official icon pack and usage terms.</text>
+</svg>
