@@ -16,6 +16,12 @@ Unexpected motor and pump failures can create costly downtime. This platform dem
 
 ## Reference architecture
 
+![Azure Industrial IoT Architecture](architecture/azure-industrial-iot-architecture.svg)
+
+[Open full-size Azure architecture diagram](architecture/azure-industrial-iot-architecture.svg)
+
+The visual uses Azure service tiles and labelled flows to show ingestion, processing, data, application, alerting, identity and observability layers. An editable Mermaid flow is also maintained below.
+
 ```mermaid
 flowchart LR
   S[Industrial sensors / simulator] --> EH[Azure Event Hubs]
