@@ -82,3 +82,8 @@ The operational guide covers accepted/rejected events, consumer lag, checkpoint 
 ## Author
 
 MD Amirul Haque · [GitHub profile](https://github.com/haqueamir70-coder) · [LinkedIn](https://www.linkedin.com/in/md-amirul-haque/)
+
+
+## Architecture and interview preparation
+
+See the [architecture diagram and interview questions](docs/README.md) for the repository-specific design walkthrough and technical interview guide.
