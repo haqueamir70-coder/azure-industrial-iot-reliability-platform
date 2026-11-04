@@ -1,0 +1,27 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.invalid/schemas/telemetry-event.schema.json",
+  "title": "Synthetic Industrial Telemetry Event",
+  "description": "Demo-only event contract. Does not define safety limits or control-system commands.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["event_id", "schema_version", "asset_id", "site_id", "event_time", "measurements"],
+  "properties": {
+    "event_id": {"type": "string", "format": "uuid"},
+    "schema_version": {"type": "string", "const": "1.0"},
+    "asset_id": {"type": "string", "minLength": 1},
+    "site_id": {"type": "string", "minLength": 1},
+    "event_time": {"type": "string", "format": "date-time"},
+    "measurements": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["temperature_c", "vibration_mm_s", "rpm", "current_amp"],
+      "properties": {
+        "temperature_c": {"type": "number"},
+        "vibration_mm_s": {"type": "number", "minimum": 0},
+        "rpm": {"type": "number", "minimum": 0},
+        "current_amp": {"type": "number", "minimum": 0}
+      }
+    }
+  }
+}
