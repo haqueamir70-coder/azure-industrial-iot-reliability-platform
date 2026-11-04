@@ -75,3 +75,7 @@ Measure telemetry freshness, ingestion success, consumer lag, alert generation l
 ### 10. Answer
 
 The repository contains synthetic data and tests. Real deployment requires OT/network assessment, device identity, data governance, safety approval and validation with representative non-sensitive telemetry.
+
+## Complete zero-to-hero guide
+
+See [ZERO-TO-HERO.md](./ZERO-TO-HERO.md) for the business scenario, architecture walkthrough, tool-by-tool explanations, implementation sequence, practical commands, troubleshooting playbook and additional scenario-based interview questions with answers.
