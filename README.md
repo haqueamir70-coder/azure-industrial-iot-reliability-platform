@@ -1,148 +1,84 @@
 # Azure Industrial IoT Reliability Platform
 
 ![Azure](https://img.shields.io/badge/Azure-Industrial%20IoT-0078D4?logo=microsoftazure&logoColor=white)
-![Terraform](https://img.shields.io/badge/IaC-Terraform-7B42BC?logo=terraform&logoColor=white)
 ![Python](https://img.shields.io/badge/Python-3.12-3776AB?logo=python&logoColor=white)
-![DevSecOps](https://img.shields.io/badge/Security-DevSecOps-success)
-![Status](https://img.shields.io/badge/Status-Reference%20Blueprint-orange)
+![CI](https://github.com/haqueamir70-coder/azure-industrial-iot-reliability-platform/actions/workflows/ci.yml/badge.svg?branch=main)
+![Status](https://img.shields.io/badge/Status-Synthetic%20Telemetry%20Lab-orange)
 
-A production-inspired reference implementation for collecting industrial equipment telemetry, detecting abnormal operating conditions, and surfacing reliability insights for motors, pumps, and other rotating assets.
+A synthetic-data reference platform for modelling equipment telemetry, event contracts and reliability operations for rotating assets such as motors and pumps.
 
-> **Scope and safety:** This is an independent learning/demo platform using synthetic telemetry. It is not connected to any real refinery, customer environment, safety-instrumented system, or operational control network. Anomaly scores are advisory and must never replace certified protection systems or engineer judgement.
+> **Safety and confidentiality boundary:** This is an independent portfolio lab. It uses generated data only and is not connected to any refinery, customer system, OT network, PLC, safety-instrumented system or real equipment. Demo anomaly thresholds are illustrative software examples—not certified alarm limits, maintenance advice or safety controls.
 
-## Why this project
+## What is implemented
 
-Unexpected motor and pump failures can create costly downtime. This platform demonstrates an event-driven Azure architecture that can ingest equipment telemetry, process it in near real time, persist operational and analytical data, and provide an API/dashboard for equipment health and alerts.
+- Versioned telemetry contract and JSON Schema at `schemas/telemetry-event.schema.json`.
+- Python simulator producing JSON Lines events for synthetic sites and assets.
+- Deterministic unit tests for event shape, parameter validation and demo anomaly injection.
+- GitHub Actions checks for required documentation, secret scanning, Python compilation and unit tests.
+- Azure target architecture and operational runbooks for Event Hubs ingestion, consumer lag, quarantine, alert delivery and SLO design.
 
-## Reference architecture
+## Architecture
 
 ![Azure Industrial IoT Architecture](architecture/azure-industrial-iot-architecture.svg)
 
-[Open full-size Azure architecture diagram](architecture/azure-industrial-iot-architecture.svg)
+The target design shows Event Hubs ingestion, stream processing, operational/analytical stores, an equipment API/dashboard, alert evaluation and observability. Cloud adapters and Azure resources are future implementation milestones; this repository does not claim that the target architecture has been deployed.
 
-The visual uses Azure service tiles and labelled flows to show ingestion, processing, data, application, alerting, identity and observability layers. An editable Mermaid flow is also maintained below.
+## Run the synthetic telemetry simulator
 
-```mermaid
-flowchart LR
-  S[Industrial sensors / simulator] --> EH[Azure Event Hubs]
-  EH --> F[Azure Functions]
-  EH --> ASA[Azure Stream Analytics]
-  F --> V[Validation + enrichment]
-  V --> DB[(Cosmos DB)]
-  ASA --> ADX[(Azure Data Explorer)]
-  DB --> API[FastAPI service]
-  ADX --> BI[Analytics / trends]
-  API --> UI[Equipment health dashboard]
-  F --> AL[Alert evaluation]
-  AL --> N[Notification adapter]
-  API --> MON[Azure Monitor / App Insights]
-  F --> MON
-```
+Requirements: Python 3.12+; no third-party packages required.
 
-## Architecture at a glance
-
-| Layer | Responsibility | Candidate technology |
-|---|---|---|
-| Device / simulation | Publish timestamped vibration, temperature, speed and current | Python simulator |
-| Ingestion | Durable event ingress and partitioned streams | Azure Event Hubs |
-| Stream processing | Filtering, windowing, aggregations and routing | Azure Stream Analytics / Functions |
-| Operational store | Latest equipment state and alerts | Azure Cosmos DB |
-| Analytical store | Historical telemetry exploration | Azure Data Explorer |
-| Application | REST APIs and equipment health views | Python FastAPI + dashboard |
-| Platform | Repeatable infrastructure and workload deployment | Terraform, Docker, AKS |
-| Security / operations | Identity, policy, scans, logs, metrics and alerts | Entra ID, Managed Identity, Checkov, Trivy, Prometheus, Grafana, Azure Monitor |
-
-The diagram is a target design. Components will be implemented incrementally; their presence here does not mean cloud resources have already been deployed.
-
-## Repository roadmap
-
-- [x] Repository initialized and architecture blueprint documented
-- [x] Senior-level interview handbook foundation
-- [ ] Synthetic telemetry simulator and event schema
-- [ ] FastAPI equipment and telemetry API
-- [ ] Rule-based anomaly and alert engine
-- [ ] Unit and integration tests
-- [ ] Docker Compose local environment
-- [ ] Terraform modules and secure Azure baseline
-- [ ] Event Hubs ingestion and processing adapters
-- [ ] AKS manifests and deployment workflow
-- [ ] DevSecOps gates: lint, tests, Checkov, Trivy and policy checks
-- [ ] Observability: metrics, logs, dashboards and SLO examples
-
-## Proposed project layout
-
-```text
-.
-├── architecture/          # diagrams, data flows and ADRs
-├── docs/                  # design, setup, operations and security
-├── interview-prep/        # senior-level interview Q&A
-├── src/
-│   ├── telemetry-api/     # FastAPI application
-│   ├── processor/         # event validation and processing
-│   └── alert-engine/      # thresholds, severity and deduplication
-├── simulator/              # synthetic motor and pump telemetry
-├── tests/                  # unit and integration tests
-├── terraform/              # reusable Azure infrastructure
-├── docker/                 # container build assets
-├── kubernetes/             # AKS manifests
-├── monitoring/             # Prometheus, Grafana and alert rules
-├── security/               # IaC and container security policies
-└── .github/workflows/      # CI and security automation
-```
-
-## Example telemetry contract
-
-Use a stable event identifier, asset identifier, UTC timestamp, schema version, numeric measurements and documented units.
-
-```json
-{
-  "event_id": "evt-000001",
-  "schema_version": "1.0",
-  "asset_id": "pump-plant-a-001",
-  "site_id": "site-demo-a",
-  "event_time": "2026-01-15T10:15:30Z",
-  "measurements": {
-    "temperature_c": 72.4,
-    "vibration_mm_s": 4.8,
-    "rpm": 1480,
-    "current_amp": 18.2
-  }
-}
-```
-
-These readings are synthetic examples, not engineering alarm limits.
-
-## Reliability principles demonstrated
-
-- **At-least-once delivery:** consumers tolerate redelivery.
-- **Idempotency:** deduplicate by event identifier or a documented idempotency key.
-- **Partitioning:** choose a key that preserves per-asset ordering where needed; avoid hot partitions.
-- **Back-pressure:** scale consumers based on lag and processing capacity.
-- **Resilience:** bounded retries, exponential backoff, quarantine/dead-letter handling and replay.
-- **Security:** managed identities, least-privilege RBAC, private connectivity where appropriate and auditable changes.
-- **Observability:** track ingestion rate, consumer lag, processing failures, alert latency, API latency and SLOs.
-- **Safety boundary:** monitoring/decision support only, not machine control or emergency shutdown.
-
-## Local development
-
-The application components are being added in phases. At this stage this repository is an architecture and engineering blueprint, not a ready-to-run product.
+From the repository root:
 
 ```bash
-git clone https://github.com/haqueamir70-coder/azure-industrial-iot-reliability-platform.git
-cd azure-industrial-iot-reliability-platform
+python -m unittest discover -s tests -v
+python -m src.telemetry_simulator --events 12 --assets 3 --seed 42
 ```
 
-Python environment instructions will be added with the first application source.
+Inject a synthetic abnormal pattern into every fifth event:
 
-## Documentation
+```bash
+python -m src.telemetry_simulator --events 20 --assets 4 --anomaly-every 5 > telemetry.jsonl
+```
 
-- [Architecture overview](architecture/README.md)
-- [Architecture decisions](architecture/decisions/README.md)
-- [Telemetry contract](docs/telemetry-contract.md)
-- [Security model](docs/security-model.md)
+Validate the generated JSON Lines against the schema with your preferred JSON Schema Draft 2020-12 validator. Do not feed generated events into real OT or customer systems.
+
+## Telemetry contract
+
+Each event includes:
+- `event_id`: unique UUID for deduplication.
+- `schema_version`: explicit contract version.
+- `asset_id` and `site_id`: synthetic identifiers.
+- `event_time`: timezone-aware RFC 3339 timestamp in UTC.
+- `measurements`: temperature (°C), vibration velocity (mm/s), speed (rpm) and current (A).
+
+See [telemetry contract](docs/telemetry-contract.md) and [JSON Schema](schemas/telemetry-event.schema.json).
+
+## Reliability and operational design
+
+The operational guide covers accepted/rejected events, consumer lag, checkpoint age, poison-event quarantine, idempotent alert delivery, latency and data completeness. Example SLOs are learning targets only and must be derived from actual workload requirements before production use.
+
 - [Reliability and operations](docs/reliability-operations.md)
-- [Interview preparation handbook](interview-prep/README.md)
+- [Security model](docs/security-model.md)
+- [Architecture decisions](architecture/decisions/README.md)
+- [Senior interview preparation](interview-prep/README.md)
 
-## Disclaimer
+## Roadmap
 
-All sites, assets, readings and incidents in this repository are fictional. Do not commit credentials, customer data, real infrastructure identifiers or proprietary architecture.
+1. **Implemented:** telemetry schema, simulator, local unit tests and CI.
+2. **Next:** Event Hubs producer/consumer adapters with managed identity and checkpointing.
+3. **Next:** event validation, idempotent processing and dead-letter/quarantine flow.
+4. **Next:** synthetic equipment-state API, rule engine and dashboard.
+5. **Next:** Terraform modules for private Azure baseline and least-privilege identity.
+6. **Later:** AKS deployment, dashboards, alert routing, load tests and operational evidence.
+
+## Engineering constraints
+
+- Never commit customer telemetry, site names, credentials, connection strings or secrets.
+- Do not send control commands to industrial equipment from this demo.
+- Separate IT analytics from OT control and safety systems.
+- Treat timestamps, schema compatibility, deduplication and replay semantics as first-class design concerns.
+- Mark every cloud component as planned until it has actual deployment and test evidence.
+
+## Author
+
+MD Amirul Haque · [GitHub profile](https://github.com/haqueamir70-coder) · [LinkedIn](https://www.linkedin.com/in/md-amirul-haque/)
