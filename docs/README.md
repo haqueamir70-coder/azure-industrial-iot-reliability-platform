@@ -32,3 +32,46 @@ flowchart LR
 
 ## Interview preparation note
 For every answer, explain the architecture, trust boundary, failure mode, telemetry, cost implication and validation evidence. Distinguish implemented, CI-validated, cloud-deployed and planned capabilities.
+
+
+## Interview questions — suggested answers
+
+### 1. Answer
+
+Event Hubs is a managed high-throughput event ingestion service suited to streaming telemetry from many devices. It decouples producers from downstream consumers.
+
+### 2. Answer
+
+Partitions enable parallel processing; consumer groups provide independent views of the stream. Partition count and key choice affect ordering and throughput.
+
+### 3. Answer
+
+Partition by stable equipment/device ID so events for one asset land in one partition, preserving partition order. Global ordering across partitions is not guaranteed.
+
+### 4. Answer
+
+Validate each event against a versioned schema, reject or quarantine invalid payloads, track schema versions and support backward-compatible evolution.
+
+### 5. Answer
+
+Use event IDs/idempotent processing, timestamps and sequence metadata. Handle late data with event-time windows and deduplicate retries at the consumer/store.
+
+### 6. Answer
+
+Threshold alerts detect known limits; anomaly detection identifies deviations from learned behavior. Combine both with equipment context and alert suppression.
+
+### 7. Answer
+
+Checkpoint only after durable processing, retry transient failures with backoff, route poison events to a dead-letter path and alert on growing lag.
+
+### 8. Answer
+
+Use device identity/certificates and secure provisioning, TLS, scoped Event Hubs permissions, managed identity for consumers and private networking where supported.
+
+### 9. Answer
+
+Measure telemetry freshness, ingestion success, consumer lag, alert generation latency and notification delivery. Define SLOs based on operational risk.
+
+### 10. Answer
+
+The repository contains synthetic data and tests. Real deployment requires OT/network assessment, device identity, data governance, safety approval and validation with representative non-sensitive telemetry.
