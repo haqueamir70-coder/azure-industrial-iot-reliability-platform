@@ -1,3 +1,15 @@
+<div align="center">
+
+<img src="https://capsule-render.vercel.app/api?type=waving&color=0:102A43,50:0078D4,100:14B8A6&height=190&section=header&text=Azure+Industrial+IoT+Reliability&fontSize=32&fontColor=ffffff&animation=fadeIn" alt="Azure Industrial IoT Reliability project banner" width="100%" />
+
+<img src="https://readme-typing-svg.demolab.com/?font=Inter&weight=600&size=16&pause=1600&color=38BDF8&center=true&vCenter=true&width=900&height=36&lines=Azure+Industrial+IoT+Reliability+%E2%80%A2+Architecture+%E2%80%A2+Automation+%E2%80%A2+Security" alt="Animated project focus line" />
+
+![Azure](https://img.shields.io/badge/Event+Driven+Architecture-0078D4?style=for-the-badge&logo=microsoftazure&logoColor=white) ![Python](https://img.shields.io/badge/Telemetry+Simulator-3776AB?style=for-the-badge&logo=python&logoColor=white) ![Reliability](https://img.shields.io/badge/Synthetic+Data+Lab-0F766E?style=for-the-badge)
+
+</div>
+
+---
+
 # Azure Industrial IoT Reliability Platform
 
 ![Azure](https://img.shields.io/badge/Azure-Industrial%20IoT-0078D4?logo=microsoftazure&logoColor=white)
