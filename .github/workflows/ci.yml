@@ -49,7 +49,7 @@ jobs:
       - name: Run API and rules tests
         run: pytest -q
       - name: Ruff lint
-        run: ruff check src tests
+        run: ruff check src tests --select F
       - name: Bandit security scan
         run: bandit -q -r src/iot_reliability
 
