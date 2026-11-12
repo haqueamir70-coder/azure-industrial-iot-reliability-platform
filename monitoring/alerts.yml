@@ -1,0 +1,11 @@
+groups:
+  - name: industrial-iot-demo
+    rules:
+      - alert: IndustrialIoTApiDown
+        expr: up{job="industrial-iot-api"} == 0
+        for: 2m
+        labels:
+          severity: critical
+        annotations:
+          summary: Industrial IoT API scrape target is down
+          description: Prometheus cannot scrape the demo API.
