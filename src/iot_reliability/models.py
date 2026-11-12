@@ -1,8 +1,6 @@
 from datetime import datetime, timezone
 from typing import Literal
-
 from pydantic import BaseModel, ConfigDict, Field, field_validator
-
 
 class TelemetryEvent(BaseModel):
     model_config = ConfigDict(extra="forbid")
@@ -13,14 +11,11 @@ class TelemetryEvent(BaseModel):
     temperature_c: float = Field(ge=-40, le=250)
     vibration_mm_s: float = Field(ge=0, le=200)
     timestamp: datetime
-
     @field_validator("timestamp")
     @classmethod
-    def require_timezone(cls, value: datetime) -> datetime:
-        if value.tzinfo is None:
-            raise ValueError("timestamp must include a timezone")
+    def timezone_required(cls, value: datetime) -> datetime:
+        if value.tzinfo is None: raise ValueError("timestamp must include timezone")
         return value.astimezone(timezone.utc)
-
 
 class Alert(BaseModel):
     alert_id: str
