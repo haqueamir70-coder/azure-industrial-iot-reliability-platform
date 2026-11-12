@@ -9,8 +9,9 @@ resource "azurerm_eventhub_namespace" "iot" {
   resource_group_name = azurerm_resource_group.iot.name
   sku                 = "Basic"
   capacity            = 1
+
   local_authentication_enabled = false
-  minimum_tls_version = "1.2"
+  minimum_tls_version          = "1.2"
 }
 
 resource "azurerm_eventhub" "telemetry" {
