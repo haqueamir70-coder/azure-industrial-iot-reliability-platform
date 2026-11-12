@@ -1,1 +1,1 @@
-"""Industrial IoT reliability demo package."""
+"""Synthetic industrial IoT reliability demo."""
