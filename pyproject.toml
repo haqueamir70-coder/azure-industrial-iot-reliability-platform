@@ -1,29 +1,20 @@
 [build-system]
 requires = ["setuptools>=69", "wheel"]
 build-backend = "setuptools.build_meta"
-
 [project]
-name = "azure-industrial-iot-reliability"
+name = "industrial-iot-reliability-demo"
 version = "0.1.0"
-description = "Synthetic industrial telemetry ingestion and equipment-health alerting"
-readme = "README.md"
 requires-python = ">=3.12"
-dependencies = ["fastapi>=0.115,<1.0", "uvicorn[standard]>=0.30,<1.0", "pydantic>=2.8,<3.0", "prometheus-client>=0.20,<1.0"]
-
+readme = "README.md"
+dependencies = ["fastapi>=0.115,<1", "uvicorn[standard]>=0.30,<1", "pydantic>=2.8,<3", "prometheus-client>=0.20,<1"]
 [project.optional-dependencies]
-azure = ["azure-eventhub>=5.12,<6.0", "azure-identity>=1.17,<2.0"]
-dev = ["pytest>=8.3,<9.0", "httpx>=0.27,<1.0", "ruff>=0.6,<1.0", "bandit>=1.7,<2.0"]
-
+dev = ["pytest>=8.3,<9", "httpx>=0.27,<1", "ruff>=0.6,<1", "bandit>=1.7,<2"]
 [tool.setuptools.packages.find]
 where = ["src"]
-
 [tool.pytest.ini_options]
 testpaths = ["tests"]
-addopts = "-q"
-
 [tool.ruff]
 line-length = 100
 target-version = "py312"
-
 [tool.ruff.lint]
 select = ["E", "F", "I", "B", "UP"]
